@@ -140,5 +140,5 @@ button {
 <!-- ._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.- -->
 
 <!-- sono arrivato fin qui.
-mancherebbe da far in modo che se si preme "...[ next-> ]" A FINE lista, si torna all inizio
+mancherebbe da far in modo che se si preme "...[ next-> ]" a FINE lista, si torna all inizio
 e se si preme "[ <-prev ] ..." a INIZIO lista si va alla fine -->
