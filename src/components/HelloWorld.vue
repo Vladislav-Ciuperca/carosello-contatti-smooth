@@ -27,8 +27,8 @@ export default {
       this.isSmooth = true;
     },
 
-// ho fatto una modifica sui in modo "andare a capo" una volta arrivato alla fine"
-// questa parte la spiego direttamente in pagina, in codice è abbastanza autoesplicativo
+// ho fatto una modifica sui in modo "andare a capo" una volta arrivato alla "fine"
+// questa parte la spiego direttamente in pagina, il codice è abbastanza autoesplicativo
     Right() {
       const carousel = document.getElementById('carousel');
       const distanzaScrollabile = carousel.scrollWidth - carousel.clientWidth;
