@@ -5,6 +5,11 @@ export default {
     return {
       isClicked: false,
       isSmooth: true,
+      valore1: "",
+      valore2: "",
+      valore3: "",
+      valore4: "",
+      bambi:'&#128150'
     }
   },
   methods: {
@@ -21,19 +26,57 @@ export default {
       this.isClicked = false;
       this.isSmooth = true;
     },
+
+// ho fatto una modifica sui in modo "andare a capo" una volta arrivato alla fine"
+// questa parte la spiego direttamente in pagina, in codice è abbastanza autoesplicativo
     Right() {
-      document.getElementById('carousel').scrollLeft += 215
-      console.log("scrollDX")
+      const carousel = document.getElementById('carousel');
+      const maxScrollDistance = carousel.scrollWidth - carousel.clientWidth;
+      const scrolledDistance = carousel.scrollLeft
+      
+      if (scrolledDistance >= maxScrollDistance) {
+        carousel.scrollLeft = 0;
+        console.log("Tornato all'inizio");
+      } else {
+        carousel.scrollLeft += 440;
+        console.log("scrollDX");
+      }
+    },
+    
+    Left() {
+      const carousel = document.getElementById('carousel');
+      const scrolledDistance = carousel.scrollLeft
+
+      if (scrolledDistance <= 0) {
+        carousel.scrollLeft = carousel.scrollWidth - carousel.clientWidth;
+        console.log("Tornato alla fine");
+      } else {
+        carousel.scrollLeft -= 440;
+        console.log("scrollSX");
+      }
     },
 
-    Left() {
-    document.getElementById('carousel').scrollLeft -= 215
-      console.log("scrollSX")
-    },
 
   },
   created() {
+    setInterval(() => {
+      const carousel = document.getElementById('carousel');
 
+      this.valore1 = carousel.scrollWidth
+      this.valore2 = carousel.clientWidth;
+      this.valore3 = carousel.scrollWidth - carousel.clientWidth
+      this.valore4 = carousel.scrollLeft
+
+     if(carousel.scrollLeft == carousel.scrollWidth - carousel.clientWidth){
+       document.getElementById("heart").innerHTML = "&#128148" 
+     }
+     else if(carousel.scrollLeft == 0){
+      document.getElementById("heart").innerHTML = "&#128150" 
+     }
+     else{
+      document.getElementById("heart").innerHTML = "&#128558" 
+     }
+    }, 20)
   },
   mounted() {
 
@@ -43,14 +86,39 @@ export default {
 
 
 <template>
+  <div class="debug">
+    
+    <div>
+      <h2>scroll Width : {{ valore1 }}</h2>
+      <p>la scroll width è lo sapzio totale scrollabile, ovvero la width dell elemento che contiene tutte le forto</p>
+    </div>
+    <div>
+      <h2>carousel Width : {{ valore2 }}</h2>
+      <p> il carousel width è lo spazio visibile (in questo caso 1100px - 4px per i vordi)</p>
+    </div>
+    <div>
+      <h2>max scroll: {{ valore3 }}</h2>
+    <p>il max scrollable distance (ovvero i px di scroll che si possono fare) sara quindi lo spazio scrollabile massimo meno lo spazio visualizzato</p>
+    </div>
+    <div>
+      <h2>pixel scrollati : {{ valore4 }}</h2>
+      <p id="heart">&#128148</p>
+      
+    </div>
+    
+    
+  </div>
 
   <div class="container">
+
     <button @click="Left()">next</button>
+
     <!-- la documentazione su questi "@events" è in fondo alla pagina -->
-    <div @mousemove="dragging"
+    <div @mousemove="dragging" 
          @mousedown="isClicked = !isClicked, isSmooth = !isSmooth" 
          @mouseup="mouseRelease()"
-      id="carousel" :class="{ smooth: isSmooth }">
+         id="carousel" :class="{ smooth: isSmooth }">
+
       <div id="element-container"><!--width 1750px(va in overflow)-->
         <div class="elemento">foto 1</div>
         <div class="elemento">foto 2</div>
@@ -62,7 +130,9 @@ export default {
         <div class="elemento">foto 8</div>
       </div>
     </div>
+
     <button @click="Right()">next</button>
+
   </div>
 
 </template>
@@ -70,17 +140,30 @@ export default {
 
 
 <style scoped>
+.debug{
+border: 2px dashed purple;
+width: 1100px;
+margin: auto;
+margin-top: 2rem;
+padding: 1rem;
+text-align: center;
+}
+.debug div{
+  margin-bottom: 1rem;
+}
+
 .container {
   display: flex;
   align-items: center;
   justify-content: center;
-  height: 99vh;
+  height: 69vh;
 }
 
 #carousel {
   width: 1100px;
   height: 330px;
   border: 2px dashed green;
+  background: rgba(172, 255, 47, 0.329);
   display: flex;
   align-items: center;
   overflow-x: hidden;
@@ -98,9 +181,8 @@ export default {
 }
 
 button {
-  border: 2px dashed orange;
-  background: rgba(255, 166, 0, 0.288);
-  background: none;
+  border: 2px dashed fuchsia;
+  background: rgba(255, 0, 255, 0.199);
   margin: 2rem;
   width: 80px;
   height: 80px;
@@ -108,14 +190,15 @@ button {
 }
 
 .elemento {
-  border: 2px dashed orange;
+  border: 2px dashed #F87102;
+  background: rgb(255, 212, 132);
   width: 200px;
   height: 200px;
   display: flex;
   align-items: center;
   justify-content: center;
   margin: 1rem;
-  background: rgba(255, 166, 0, 0.288);
+  /* background: rgba(255, 166, 0, 0.288); */
 }
 </style>
 
@@ -124,12 +207,12 @@ button {
 <!-- nel codice viene usato "@mousdown" e non "@click" lascio la documentazione di MDN -->
 
 
-<!-- "movementX" sempre su mdn (anche qua le prime righe spiegano gia abbastanza) -->
+<!-- "movementX" spieghato su MDN (le prime 2 righe dicono gia tutto) -->
 <!-- https://developer.mozilla.org/en-US/docs/Web/API/MouseEvent/movementX -->
 
 <!-- ._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.- -->
 
-<!-- "mousedown" spieghato velocemente su MDN (le prime 2 righre dicono gia tutto) -->
+<!-- "mousedown" sempre su mdn (anche qua le prime righe spiegano gia abbastanza) -->
 <!-- https://developer.mozilla.org/en-US/docs/Web/API/Element/mousedown_event -->
 
 <!-- ._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.- -->
@@ -139,6 +222,10 @@ button {
 
 <!-- ._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.- -->
 
-<!-- sono arrivato fin qui.
-mancherebbe da far in modo che se si preme "...[ next-> ]" a FINE lista, si torna all inizio
-e se si preme "[ <-prev ] ..." a INIZIO lista si va alla fine -->
+<!-- documentazione scrollwidth -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/API/Element/scrollWidth -->
+
+<!-- ._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.-._.- -->
+
+<!-- il clientwidth è praticamente lo spazio che è possibile vedere -->
+<!-- https://developer.mozilla.org/en-US/docs/Web/API/Element/clientWidth -->
