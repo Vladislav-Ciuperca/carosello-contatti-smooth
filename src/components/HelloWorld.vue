@@ -31,10 +31,10 @@ export default {
 // questa parte la spiego direttamente in pagina, in codice è abbastanza autoesplicativo
     Right() {
       const carousel = document.getElementById('carousel');
-      const maxScrollDistance = carousel.scrollWidth - carousel.clientWidth;
-      const scrolledDistance = carousel.scrollLeft
+      const distanzaScrollabile = carousel.scrollWidth - carousel.clientWidth;
+      const distanzaScrollata = carousel.scrollLeft
       
-      if (scrolledDistance >= maxScrollDistance) {
+      if (distanzaScrollata >= distanzaScrollabile) {
         carousel.scrollLeft = 0;
         console.log("Tornato all'inizio");
       } else {
@@ -45,9 +45,9 @@ export default {
     
     Left() {
       const carousel = document.getElementById('carousel');
-      const scrolledDistance = carousel.scrollLeft
+      const distanzaScrollata = carousel.scrollLeft
 
-      if (scrolledDistance <= 0) {
+      if (distanzaScrollata <= 0) {
         carousel.scrollLeft = carousel.scrollWidth - carousel.clientWidth;
         console.log("Tornato alla fine");
       } else {
